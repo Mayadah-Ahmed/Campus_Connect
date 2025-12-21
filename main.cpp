@@ -6,18 +6,31 @@
 #include "service/PostService.h"
 #include "controller/AuthController.h"
 
+#define RESET   "\033[0m"
+#define BOLD    "\033[1m"
+#define GREEN   "\033[32m"
+#define RED     "\033[31m"
+#define BLUE    "\033[34m"
+#define CYAN    "\033[36m"
+
+
+
 using namespace std;
 using namespace CampusConnect;
 
 
 void showHeader() {
+    cout << CYAN << BOLD;
     cout << "==============================================\n";
     cout << "           CAMPUS CONNECT v1.0\n";
     cout << "       Student Community Platform\n";
     cout << "==============================================\n\n";
+    cout << RESET;
+
 }
 
 void showAbout() {
+    cout << CYAN << BOLD;
     cout << "\n========== ABOUT CAMPUS CONNECT ==========\n";
     cout << "Campus Connect is a student community platform\n";
     cout << "designed to help university students:\n\n";
@@ -27,6 +40,7 @@ void showAbout() {
     cout << "This is a console-based demo version\n";
     cout << "implemented as part of Phase 3.\n";
     cout << "==========================================\n";
+    cout << RESET;
 }
 
 void pauseScreen() {
@@ -52,12 +66,12 @@ int main() {
 
         
         if (!currentUser) {
-            cout << "=== MAIN MENU (Not Logged In) ===\n";
-            cout << "1. Register New Account\n";
-            cout << "2. Login to Existing Account\n";
-            cout << "3. About This Platform\n";
-            cout << "0. Exit Program\n";
-            cout << "Enter choice: ";
+            cout << CYAN <<"=== MAIN MENU (Not Logged In) ===\n";
+            cout << CYAN << "1. Register New Account\n";
+            cout << CYAN << "2. Login to Existing Account\n";
+            cout << CYAN <<"3. About This Platform\n";
+            cout << CYAN<< "0. Exit Program\n";
+            cout << CYAN<< "Enter choice: " ;
 
             cin >> choice;
             cin.ignore();
@@ -65,12 +79,12 @@ int main() {
             try {
                 if (choice == 1) {
                     showHeader();
-                    cout << "=== REGISTER ===\n\n";
+                    cout << CYAN <<"=== REGISTER ===\n\n";
                     authController.registerUser();
                 }
                 else if (choice == 2) {
                     showHeader();
-                    cout << "=== LOGIN ===\n\n";
+                    cout << CYAN<< "=== LOGIN ===\n\n";
                     currentUser = authController.login();
                 }
                 else if (choice == 3) {
@@ -78,11 +92,11 @@ int main() {
                     showAbout();
                 }
                 else if (choice == 0) {
-                    cout << "\nThank you for using Campus Connect!\n";
+                    cout << GREEN<< "\nThank you for using Campus Connect!\n";
                     break;
                 }
                 else {
-                    cout << " Invalid choice.\n";
+                    cout << RED << "Invalid choice\n";
                 }
             }
             catch (exception& e) {
@@ -94,38 +108,38 @@ int main() {
 
         
         else {
-            showHeader();
-            cout << " Welcome, " << currentUser->getName() << "!\n";
-            cout << "==============================================\n\n";
+            
+            cout << CYAN <<BOLD<<" Welcome, " << currentUser->getName() << "!\n";
+            cout << CYAN << BOLD << "==============================================\n\n";
 
-            cout << "=== POST MANAGEMENT ===\n";
-            cout << "1. Create New Post\n";
-            cout << "2. View All Posts\n";
-            cout << "3. Logout\n";
-            cout << "0. Exit Program\n";
-            cout << "Enter choice: ";
+            cout << CYAN <<"=== POST MANAGEMENT ===\n";
+            cout << CYAN << "1. Create New Post\n";
+            cout << CYAN << "2. View All Posts\n";
+            cout << CYAN << "3. Logout\n";
+            cout << CYAN << "0. Exit Program\n";
+            cout << CYAN << "Enter choice: ";
 
             cin >> choice;
             cin.ignore();
 
             if (choice == 1) {
                 showHeader();
-                cout << "=== CREATE NEW POST ===\n\n";
+                cout << CYAN <<"=== CREATE NEW POST ===\n\n";
                 string content;
-                cout << "Write your post below:\n> ";
+                cout << CYAN <<"Write your post below:\n> ";
                 getline(cin, content);
 
                 postService.createPost(content, currentUser->getName());
-                cout << "\n Post published successfully!\n";
+                cout << CYAN<<"\n Post published successfully!\n";
                 pauseScreen();
             }
             else if (choice == 2) {
                 showHeader();
-                cout << "========== FEED ==========\n\n";
+                cout << CYAN<<"========== FEED ==========\n\n";
 
                 auto posts = postService.getAllPosts();
                 if (posts.empty()) {
-                    cout << "No posts available yet.\n";
+                    cout <<RED<< "No posts available yet.\n";
                 }
                 else {
                     for (auto& p : posts) {
@@ -140,11 +154,11 @@ int main() {
                 currentUser = nullptr;
             }
             else if (choice == 0) {
-                cout << "\nThank you for using Campus Connect!\n";
+                cout <<GREEN<< "\nThank you for using Campus Connect!\n";
                 break;
             }
             else {
-                cout << " Invalid choice.\n";
+                cout <<RED<< " Invalid choice.\n";
                 pauseScreen();
             }
         }
