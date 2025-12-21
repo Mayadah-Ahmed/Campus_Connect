@@ -1,0 +1,21 @@
+```gitignore
+# Build files
+build/
+cmake-build-*/
+
+# Compiled binaries
+*.exe
+*.out
+
+# CMake files
+CMakeFiles/
+CMakeCache.txt
+Makefile
+cmake_install.cmake
+
+# IDE files
+.vs/
+.idea/
+
+# OS files
+.DS_Store
