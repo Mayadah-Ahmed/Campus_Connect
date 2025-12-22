@@ -17,7 +17,7 @@ add_executable(CampusConnect
     service/PostService.cpp
 
     controller/AuthController.cpp
-)
+ "tests/AuthServiceTest.cpp" "tests/postServiceTest.cpp")
 
 target_include_directories(CampusConnect PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
