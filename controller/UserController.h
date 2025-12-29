@@ -2,14 +2,20 @@
 #define USERCONTROLLER_H
 #include "../service/AuthService.h"
 #include "../View/UserView.h"
+#include <memory>
 
-class UserController {
-private:
-    AuthService& authService;
-    UserView& view;
-public:
-    UserController(AuthService& as, UserView& uv);
-    void handleRegister();
-    void handleLogin();
-};
+namespace CampusConnect {
+    namespace Controller {
+        class UserController {
+        private:
+            Service::AuthService& authService;
+            View::UserView& view;
+        public:
+            UserController(Service::AuthService& as, View::UserView& uv);
+            void handleRegister();
+            std::shared_ptr<Models::User> handleLogin();
+            void displayAbout();
+        };
+    }
+}
 #endif

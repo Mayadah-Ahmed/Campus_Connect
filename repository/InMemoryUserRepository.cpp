@@ -1,12 +1,18 @@
 #include "InMemoryUserRepository.h"
 
-void InMemoryUserRepository::saveUser(User user) {
-    users.push_back(user);
-}
+namespace CampusConnect {
+    namespace Repository {
+        void InMemoryUserRepository::saveUser(std::shared_ptr<Models::User> user) {
+            users.push_back(user);
+        }
 
-User* InMemoryUserRepository::findByEmail(std::string email) {
-    for (auto& user : users) {
-        if (user.getEmail() == email) return &user;
+        std::shared_ptr<Models::User> InMemoryUserRepository::findByEmail(std::string email) {
+            for (const auto& user : users) {
+                if (user->getEmail() == email) {
+                    return user;
+                }
+            }
+            return nullptr;
+        }
     }
-    return nullptr;
 }

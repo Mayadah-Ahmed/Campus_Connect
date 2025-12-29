@@ -2,11 +2,16 @@
 #define IPOSTREPOSITORY_H
 #include "../models/Post.h"
 #include <vector>
+#include <memory>
 
-class IPostRepository {
-public:
-    virtual ~IPostRepository() {}
-    virtual void savePost(Post post) = 0;
-    virtual std::vector<Post> findAll() = 0;
-};
+namespace CampusConnect {
+    namespace Repository {
+        class IPostRepository {
+        public:
+            virtual ~IPostRepository() {}
+            virtual void savePost(std::shared_ptr<Models::Post> post) = 0;
+            virtual std::vector<std::shared_ptr<Models::Post>> findAll() = 0;
+        };
+    }
+}
 #endif

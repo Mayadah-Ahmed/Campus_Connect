@@ -1,9 +1,13 @@
 #include "InMemoryPostRepository.h"
 
-void InMemoryPostRepository::savePost(Post post) {
-    posts.push_back(post);
-}
+namespace CampusConnect {
+    namespace Repository {
+        void InMemoryPostRepository::savePost(std::shared_ptr<Models::Post> post) {
+            posts.push_back(post);
+        }
 
-std::vector<Post> InMemoryPostRepository::findAll() {
-    return posts;
+        std::vector<std::shared_ptr<Models::Post>> InMemoryPostRepository::findAll() {
+            return posts;
+        }
+    }
 }

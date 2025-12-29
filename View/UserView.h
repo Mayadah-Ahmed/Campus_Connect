@@ -2,10 +2,14 @@
 #define USERVIEW_H
 #include <string>
 
-class UserView {
-public:
-    void showMessage(std::string msg);
-    void getRegistrationInput(std::string& name, std::string& email, std::string& sid, std::string& pass);
-    void getLoginInput(std::string& email, std::string& pass);
-};
+namespace CampusConnect {
+    namespace View {
+        class UserView {
+        public:
+            void showAbout();
+            void showMessage(std::string msg, bool isError = false);
+            void getRegistrationInput(std::string& name, std::string& email, std::string& sid, std::string& pass);
+        };
+    }
+}
 #endif

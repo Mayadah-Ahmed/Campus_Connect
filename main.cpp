@@ -1,22 +1,46 @@
-﻿#include "repository/InMemoryUserRepository.h"
-#include "service/AuthService.h"
-#include "View/UserView.h"
+﻿#include "View/UIUtils.h"
 #include "controller/UserController.h"
-#include <iostream>
+#include "controller/PostController.h"
+#include "repository/InMemoryUserRepository.h"
+#include "repository/InMemoryPostRepository.h"
+
+using namespace CampusConnect;
 
 int main() {
-    InMemoryUserRepository userRepo;
-    AuthService authService(userRepo);
-    UserView userView;
-    UserController userController(authService, userView);
 
+    auto userRepo = std::make_shared<Repository::InMemoryUserRepository>();
+    auto postRepo = std::make_shared<Repository::InMemoryPostRepository>();
+
+    Service::AuthService authService(userRepo);
+    Service::PostService postService(postRepo);
+
+    View::UserView userView;
+    Controller::UserController userCtrl(authService, userView);
+    Controller::PostController postCtrl(postService);
+
+    std::shared_ptr<Models::User> currentUser = nullptr;
     int choice;
+
     while (true) {
-        std::cout << "\n1. Register\n2. Login\n3. Exit\nChoice: ";
-        std::cin >> choice;
-        if (choice == 1) userController.handleRegister();
-        else if (choice == 2) userController.handleLogin();
-        else break;
+        View::UIUtils::showHeader();
+        if (!currentUser) {
+            std::cout << CYAN << "1. Register\n2. Login\n3. About\n0. Exit\nChoice: ";
+            std::cin >> choice; std::cin.ignore();
+            if (choice == 1) userCtrl.handleRegister();
+            else if (choice == 2) currentUser = userCtrl.handleLogin();
+            else if (choice == 3) userView.showAbout();
+            else if (choice == 0) break;
+        }
+        else {
+            std::cout << GREEN << "Welcome, " << currentUser->getName() << "!\n" << RESET;
+            std::cout << CYAN << "1. Create Post\n2. News Feed\n3. Logout\n0. Exit\nChoice: ";
+            std::cin >> choice; std::cin.ignore();
+            if (choice == 1) postCtrl.handleCreatePost(currentUser->getName());
+            else if (choice == 2) postCtrl.handleShowFeed();
+            else if (choice == 3) currentUser = nullptr;
+            else if (choice == 0) break;
+        }
+        View::UIUtils::pauseScreen();
     }
     return 0;
 }

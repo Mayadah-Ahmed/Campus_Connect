@@ -1,15 +1,18 @@
 #ifndef POSTCONTROLLER_H
 #define POSTCONTROLLER_H
 #include "../service/PostService.h"
-#include "../View/PostView.h"
+#include <memory>
 
-class PostController {
-private:
-    PostService& postService;
-    PostView& postView;
-public:
-    PostController(PostService& ps, PostView& pv);
-    void handleCreatePost(std::string currentUser);
-    void handleShowFeed();
-};
+namespace CampusConnect {
+    namespace Controller {
+        class PostController {
+        private:
+            Service::PostService& postService;
+        public:
+            PostController(Service::PostService& ps);
+            void handleCreatePost(std::string currentUser);
+            void handleShowFeed();
+        };
+    }
+}
 #endif

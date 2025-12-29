@@ -1,15 +1,18 @@
 #ifndef POSTSERVICE_H
 #define POSTSERVICE_H
-#include <vector>
-#include <string>
 #include "../repository/IPostRepository.h"
+#include <memory>
 
-class PostService {
-private:
-    IPostRepository& postRepo;
-public:
-    PostService(IPostRepository& repo);
-    void createPost(std::string content, std::string author);
-    std::vector<Post> getFeed();
-};
+namespace CampusConnect {
+    namespace Service {
+        class PostService {
+        private:
+            std::shared_ptr<Repository::IPostRepository> postRepo;
+        public:
+            PostService(std::shared_ptr<Repository::IPostRepository> repo);
+            void createPost(std::string content, std::string author);
+            std::vector<std::shared_ptr<Models::Post>> getFeed();
+        };
+    }
+}
 #endif
