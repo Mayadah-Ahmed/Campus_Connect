@@ -1,19 +1,19 @@
-#pragma once
+#ifndef POST_H
+#define POST_H
 #include <string>
 
-namespace CampusConnect::Models {
+class Post {
+private:
+    int id;
+    std::string content;
+    std::string authorName;
+    std::string timestamp;
 
-    class Post {
-    private:
-        std::string content;
-        std::string authorName;
-
-    public:
-        Post(const std::string& content,
-            const std::string& authorName);
-
-        std::string getContent() const;
-        std::string getAuthorName() const;
-    };
-
-}
+public:
+    Post(int id, std::string content, std::string authorName, std::string timestamp);
+    int getId() const;
+    std::string getContent() const;
+    std::string getAuthorName() const;
+    std::string getTimestamp() const;
+};
+#endif

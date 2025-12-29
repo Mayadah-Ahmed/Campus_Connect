@@ -1,16 +1,13 @@
-#pragma once
+#ifndef INMEMORYUSERREPOSITORY_H
+#define INMEMORYUSERREPOSITORY_H
 #include "IUserRepository.h"
 #include <vector>
 
-namespace CampusConnect::Repository {
-
-    class InMemoryUserRepository : public IUserRepository {
-    private:
-        std::vector<std::shared_ptr<Models::User>> users;
-
-    public:
-        void addUser(std::shared_ptr<Models::User> user) override;
-        std::shared_ptr<Models::User> findByEmail(const std::string& email) override;
-    };
-
-}
+class InMemoryUserRepository : public IUserRepository {
+private:
+    std::vector<User> users;
+public:
+    void saveUser(User user) override;
+    User* findByEmail(std::string email) override;
+};
+#endif

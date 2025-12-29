@@ -1,31 +1,16 @@
 #include "AuthService.h"
 
-namespace CampusConnect::Service {
+AuthService::AuthService(IUserRepository& repo) : userRepo(repo) {}
 
-    AuthService::AuthService(std::shared_ptr<Repository::IUserRepository> repo)
-        : userRepo(repo) {
+bool AuthService::registerUser(User u) {
+    if (userRepo.findByEmail(u.getEmail()) == nullptr) {
+        userRepo.saveUser(u);
+        return true;
     }
+    return false;
+}
 
-    void AuthService::registerUser(const std::string& id,
-        const std::string& name,
-        const std::string& email,
-        const std::string& password) {
-        if (userRepo->findByEmail(email))
-            throw Exceptions::UserAlreadyExistsException();
-
-        userRepo->addUser(
-            std::make_shared<Models::User>(id, name, email, password)
-        );
-    }
-
-    std::shared_ptr<Models::User>
-        AuthService::login(const std::string& email,
-            const std::string& password) {
-        auto user = userRepo->findByEmail(email);
-        if (!user || user->getPassword() != password)
-            throw Exceptions::InvalidCredentialsException();
-
-        return user;
-    }
-
+bool AuthService::login(std::string email, std::string pass) {
+    User* user = userRepo.findByEmail(email);
+    return (user != nullptr && user->getPassword() == pass);
 }

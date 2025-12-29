@@ -1,14 +1,11 @@
-#pragma once
-#include <memory>
+#ifndef IUSERREPOSITORY_H
+#define IUSERREPOSITORY_H
 #include "../models/User.h"
 
-namespace CampusConnect::Repository {
-
-    class IUserRepository {
-    public:
-        virtual void addUser(std::shared_ptr<Models::User> user) = 0;
-        virtual std::shared_ptr<Models::User> findByEmail(const std::string& email) = 0;
-        virtual ~IUserRepository() = default;
-    };
-
-}
+class IUserRepository {
+public:
+    virtual ~IUserRepository() {}
+    virtual void saveUser(User user) = 0;
+    virtual User* findByEmail(std::string email) = 0;
+};
+#endif
